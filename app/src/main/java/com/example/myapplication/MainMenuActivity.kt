@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.widget.ImageButton
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.example.yourapp.CameraActivity
+import com.example.myapplication.CameraActivity
 
 class MainMenuActivity : AppCompatActivity() {
 
@@ -30,6 +30,7 @@ class MainMenuActivity : AppCompatActivity() {
 
         findgameButton.setOnClickListener{
             val intent = Intent(this, CameraActivity::class.java)
+            startActivity(intent)
         }
 
         balanceButton.setOnClickListener{
