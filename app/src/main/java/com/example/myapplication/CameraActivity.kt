@@ -1,10 +1,13 @@
 package com.example.myapplication
 
 import android.Manifest
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -12,13 +15,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
-import com.example.myapplication.R
 
 class CameraActivity : AppCompatActivity() {
 
     private lateinit var ivUser: ImageView
     private lateinit var btnTakePicture: Button
+    private lateinit var backButton: ImageButton // Correct type for the back button
 
     // Define ActivityResultLauncher for taking a picture
     private lateinit var takePictureLauncher: ActivityResultLauncher<Void?>
@@ -27,12 +29,14 @@ class CameraActivity : AppCompatActivity() {
         private const val REQUEST_CAMERA_PERMISSION = 1
     }
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.camera_activity)
+        setContentView(R.layout.camera_activity) // Ensure the layout name matches your XML file
 
         ivUser = findViewById(R.id.ivUser)
         btnTakePicture = findViewById(R.id.btnTakePicture)
+        backButton = findViewById(R.id.backButton) // Initialize the back button
 
         // Register the launcher for the result of taking a picture
         takePictureLauncher = registerForActivityResult(
@@ -52,6 +56,14 @@ class CameraActivity : AppCompatActivity() {
                 // Permission already granted, launch the camera
                 takePictureLauncher.launch(null)
             }
+        }
+
+        // Set up click listener for the back button
+        backButton.setOnClickListener {
+            // Navigate back to the main menu
+            val intent = Intent(this, MainMenuActivity::class.java)
+            startActivity(intent)
+            finish() // Optional: close the current activity
         }
     }
 
