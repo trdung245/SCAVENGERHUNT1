@@ -2,10 +2,13 @@ package com.example.myapplication
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -15,6 +18,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 
 class CameraActivity : AppCompatActivity() {
 
@@ -43,7 +50,11 @@ class CameraActivity : AppCompatActivity() {
             ActivityResultContracts.TakePicturePreview()
         ) { bitmap: Bitmap? ->
             bitmap?.let {
-                ivUser.setImageBitmap(it)
+                ivUser.setImageBitmap(it) // Display the captured image
+                val fileUri = saveBitmapToFile(this, it, "captured_image")
+                fileUri?.let { uri ->
+                    Toast.makeText(this, "Image saved to: $uri", Toast.LENGTH_LONG).show()
+                }
             }
         }
 
@@ -67,6 +78,30 @@ class CameraActivity : AppCompatActivity() {
         }
     }
 
+    // Save the bitmap to a file and return its URI
+    private fun saveBitmapToFile(context: Context, bitmap: Bitmap, capturedImage: String): Uri? {
+        // Get the external files directory for images
+        val imagesDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        if (imagesDir != null && !imagesDir.exists()) {
+            imagesDir.mkdirs()
+        }
+
+        // Create the file in the external files directory
+        val imageFile = File(imagesDir, "$capturedImage.jpg")
+        return try {
+            FileOutputStream(imageFile).use { out ->
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out) // Compress to 90% quality
+                out.flush()
+            }
+            // Get the content URI for the saved file using FileProvider
+            FileProvider.getUriForFile(context, "com.example.myapplication.fileprovider", imageFile)
+        } catch (e: IOException) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+    // Handle the result of the permission request
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
