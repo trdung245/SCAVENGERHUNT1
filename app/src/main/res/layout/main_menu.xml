@@ -28,12 +28,13 @@
             android:textSize="30sp"
             android:layout_gravity="center_horizontal"
             android:textColor="@color/black"
+            android:textStyle="bold"
             android:shadowColor="#808080"
             android:shadowDx="2"
             android:shadowDy="2"
             android:shadowRadius="4"
             android:padding="16dp"
-            android:fontFamily="@font/cinzel_semibold"
+            android:fontFamily="@font/cinzel_bold"
             />
 
     </GridLayout>
@@ -66,7 +67,6 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:gravity="center"
-                android:background="@color/white"
                 >
                 <ImageButton
                     android:layout_width="80dp"
@@ -104,7 +104,6 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:gravity="center"
-                android:background="@color/white"
                 >
                 <ImageButton
                     android:layout_width="80dp"
@@ -142,7 +141,6 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:gravity="center"
-                android:background="@color/white"
                 >
                 <ImageButton
                     android:layout_width="80dp"
@@ -179,7 +177,6 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:gravity="center"
-                android:background="@color/white"
                 >
                 <ImageButton
                     android:layout_width="80dp"
@@ -217,7 +214,6 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:gravity="center"
-                android:background="@color/white"
                 >
                 <ImageButton
                     android:layout_width="80dp"
@@ -256,7 +252,6 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:gravity="center"
-                android:background="@color/white"
                 >
                 <ImageButton
                     android:layout_width="80dp"

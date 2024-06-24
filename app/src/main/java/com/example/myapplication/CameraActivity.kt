@@ -2,6 +2,7 @@ package com.example.myapplication
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -27,13 +28,14 @@ class CameraActivity : AppCompatActivity() {
 
     private lateinit var ivUser: ImageView
     private lateinit var btnTakePicture: Button
-    private lateinit var backButton: ImageButton // Correct type for the back button
+    private lateinit var backButton: ImageButton
 
     // Define ActivityResultLauncher for taking a picture
     private lateinit var takePictureLauncher: ActivityResultLauncher<Void?>
 
     companion object {
         private const val REQUEST_CAMERA_PERMISSION = 1
+        private const val REQUEST_CODE = 1001
     }
 
     @SuppressLint("MissingInflatedId")
@@ -98,6 +100,35 @@ class CameraActivity : AppCompatActivity() {
         } catch (e: IOException) {
             e.printStackTrace()
             null
+        }
+    }
+
+    // Example method to get a URI for a file
+    private fun getUriForFile(file: File): Uri {
+        val authority = "com.example.myapplication.fileprovider"
+        return FileProvider.getUriForFile(this, authority, file)
+    }
+
+    // Example method to share a file
+    private fun shareFile(file: File) {
+        val fileUri = getUriForFile(file)
+
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            type = "application/pdf" // Change according to your file type
+            putExtra(Intent.EXTRA_STREAM, fileUri)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+
+        startActivity(Intent.createChooser(intent, "Share file via"))
+    }
+
+    // Example method to handle onActivityResult
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            data?.data?.let { uri ->
+                // Use the URI as needed
+            }
         }
     }
 
