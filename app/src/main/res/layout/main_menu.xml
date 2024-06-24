@@ -67,6 +67,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:gravity="center"
+                android:background="@color/white"
                 >
                 <ImageButton
                     android:layout_width="80dp"
@@ -104,19 +105,20 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:gravity="center"
+                android:background="@color/white"
                 >
                 <ImageButton
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_gravity="center_horizontal"
-                    android:background="@drawable/ic_home"
-                    android:id="@+id/home_button"
-                    android:contentDescription="@string/home_button"
+                    android:background="@drawable/ic_capture"
+                    android:id="@+id/capture_button"
+                    android:contentDescription="@string/capture_button"
                     />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Home"
+                    android:text="Capture"
                     android:layout_gravity="center_horizontal"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -141,6 +143,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:gravity="center"
+                android:background="@color/white"
                 >
                 <ImageButton
                     android:layout_width="80dp"
@@ -177,6 +180,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:gravity="center"
+                android:background="@color/white"
                 >
                 <ImageButton
                     android:layout_width="80dp"
@@ -214,6 +218,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:gravity="center"
+                android:background="@color/white"
                 >
                 <ImageButton
                     android:layout_width="80dp"
@@ -252,6 +257,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:gravity="center"
+                android:background="@color/white"
                 >
                 <ImageButton
                     android:layout_width="80dp"

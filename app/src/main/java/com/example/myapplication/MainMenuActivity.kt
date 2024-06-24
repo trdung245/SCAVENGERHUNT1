@@ -9,7 +9,7 @@ import com.example.myapplication.CameraActivity
 
 class MainMenuActivity : AppCompatActivity() {
 
-    private lateinit var homeButton: ImageButton
+    private lateinit var captureButton: ImageButton
     private lateinit var findgameButton: ImageButton
     private lateinit var balanceButton: ImageButton
     private lateinit var profileButton: ImageButton
@@ -21,14 +21,14 @@ class MainMenuActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.main_menu)
 
-        homeButton = findViewById(R.id.home_button)
+        captureButton = findViewById(R.id.capture_button)
         findgameButton = findViewById(R.id.find_game_button)
         balanceButton = findViewById(R.id.balance_button)
         profileButton = findViewById(R.id.profile_button)
         communityButton = findViewById(R.id.community_button)
         settingButton = findViewById(R.id.setting_button)
 
-        findgameButton.setOnClickListener{
+        captureButton.setOnClickListener{
             val intent = Intent(this, CameraActivity::class.java)
             startActivity(intent)
         }
