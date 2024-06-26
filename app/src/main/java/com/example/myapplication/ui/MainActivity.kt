@@ -15,6 +15,7 @@ import com.example.myapplication.data.network.ApiService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import com.example.myapplication.data.solana.SolanaUtils
 
 class MainActivity : AppCompatActivity() {
 
@@ -44,6 +45,11 @@ class MainActivity : AppCompatActivity() {
                 Log.i("Test Credentials", "Username: $username and Password: $password")
 
                 fetchData()
+
+                val newWalletAddress = SolanaUtils.createNewWallet()
+                Log.i("Test Credentials", "New Wallet Address: $newWalletAddress")
+
+                SolanaUtils.fetchWalletBalance(newWalletAddress)
 
                 val intent = Intent(this, MainMenuActivity::class.java)
                 startActivity(intent)

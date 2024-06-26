@@ -1,5 +1,6 @@
 [versions]
 agp = "8.5.0"
+bitcoinjCore = "0.15.8"
 converterGson = "2.9.0"
 kotlin = "1.9.0"
 coreKtx = "1.10.1"
@@ -10,10 +11,16 @@ appcompat = "1.6.1"
 material = "1.10.0"
 activity = "1.8.0"
 constraintlayout = "2.1.4"
+mmorrellSolanaj = "1.17.0"
+p2pSolanaj = "1.0.0"
+p2pSolanajVersion = "1.0.5"
 solana = "1.0.0"
+solanaj = "1.0.5"
+solanajVersion = "version"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+bitcoinj-core = { module = "org.bitcoinj:bitcoinj-core", version.ref = "bitcoinjCore" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -22,8 +29,13 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+mmorrell-solanaj = { module = "com.mmorrell:solanaj", version.ref = "mmorrellSolanaj" }
+p2p-solanaj = { module = "org.p2p:solanaj", version.ref = "solanajVersion" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "converterGson" }
 solana = { module = "com.solana:solana", version.ref = "solana" }
+solanaj = { module = "com.github.skynetcap:solanaj", version.ref = "solanaj" }
+solanaj-v100 = { module = "org.p2p:solanaj", version.ref = "p2pSolanaj" }
+solanaj-v105 = { module = "org.p2p:solanaj", version.ref = "p2pSolanajVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
