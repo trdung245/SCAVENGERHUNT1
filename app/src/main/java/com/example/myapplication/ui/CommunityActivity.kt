@@ -1,29 +1,26 @@
-package com.example.myapplication
+package ui
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.widget.Button
-import android.widget.EditText
 import android.widget.ImageButton
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.example.myapplication.R
 
-class BalanceActivity : AppCompatActivity() {
+class CommunityActivity : AppCompatActivity() {
 
     private lateinit var backButton: ImageButton
-    private lateinit var refreshButton: Button
-    private lateinit var addFundsButton: Button
+    private lateinit var facebookButton: ImageButton
+    private lateinit var discordButton: ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.balance)
+        setContentView(R.layout.community)
 
         backButton = findViewById(R.id.backButton)
-        refreshButton = findViewById(R.id.refreshButton)
-        addFundsButton = findViewById(R.id.addFundsButton)
+        facebookButton = findViewById(R.id.facebookButton)
+        discordButton = findViewById(R.id.discordButton)
 
         backButton.setOnClickListener{
             val intent = Intent(this, MainMenuActivity::class.java)

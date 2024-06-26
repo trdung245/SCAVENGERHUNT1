@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature android:name="android.hardware.camera.any" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
 
 
@@ -29,7 +30,7 @@
         </provider>
 
         <activity
-            android:name=".MainActivity"
+            android:name="ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,12 +38,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainMenuActivity" />
-        <activity android:name=".BalanceActivity" />
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".CommunityActivity" />
-        <activity android:name=".SettingActivity" />
-        <activity android:name=".CameraActivity"/>
+        <activity android:name="ui.MainMenuActivity" />
+        <activity android:name="ui.BalanceActivity" />
+        <activity android:name="ui.ProfileActivity" />
+        <activity android:name="ui.CommunityActivity" />
+        <activity android:name="ui.SettingActivity" />
+        <activity android:name="ui.CameraActivity"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"
