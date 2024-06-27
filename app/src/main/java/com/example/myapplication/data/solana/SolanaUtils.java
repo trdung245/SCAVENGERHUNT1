@@ -1,12 +1,11 @@
 package com.example.myapplication.data.solana;
 
-import static org.bouncycastle.asn1.x509.ObjectDigestInfo.publicKey;
-
 import android.util.Log;
 import org.bitcoinj.core.Base58;
 import org.p2p.solanaj.core.Account;
 import org.p2p.solanaj.core.PublicKey;
 import org.p2p.solanaj.rpc.RpcClient;
+
 
 public class SolanaUtils {
     private static final String TAG = "SolanaUtils";
@@ -30,5 +29,6 @@ public class SolanaUtils {
             }
         }).start();
     }
+
 }
 

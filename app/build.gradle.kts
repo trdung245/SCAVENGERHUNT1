@@ -50,5 +50,6 @@ dependencies {
     implementation (libs.bitcoinj.core)
     implementation (libs.mmorrell.solanaj)
     implementation (libs.github.java.ipfs.http.client)
+    implementation (libs.json)
 
 }

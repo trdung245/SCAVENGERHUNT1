@@ -45,6 +45,7 @@
         <activity android:name=".ui.CommunityActivity" />
         <activity android:name=".ui.SettingActivity" />
         <activity android:name=".ui.CameraActivity"/>
+        <activity android:name=".ui.KeyDisplayActivity"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"

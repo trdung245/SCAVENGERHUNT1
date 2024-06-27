@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.R
@@ -24,6 +25,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var loginButton: Button
     private lateinit var registerButton1: Button
     private lateinit var registerButton2: Button
+    private lateinit var continueButton : Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,8 +53,17 @@ class MainActivity : AppCompatActivity() {
 
                 SolanaUtils.fetchWalletBalance(newWalletAddress)
 
-                val intent = Intent(this, MainMenuActivity::class.java)
-                startActivity(intent)
+                setContentView(R.layout.activity_key_display)
+
+                val publicKeyTextView: TextView = findViewById(R.id.public_key_text_view)
+
+                publicKeyTextView.text = newWalletAddress
+
+                continueButton = findViewById(R.id.continueButton)
+                continueButton.setOnClickListener {
+                    val intent = Intent(this, MainMenuActivity::class.java)
+                    startActivity(intent)
+                }
             }
         }
 
