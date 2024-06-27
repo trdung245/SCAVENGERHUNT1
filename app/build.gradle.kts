@@ -49,6 +49,6 @@ dependencies {
     implementation (libs.converter.gson)
     implementation (libs.bitcoinj.core)
     implementation (libs.mmorrell.solanaj)
-
+    implementation (libs.github.java.ipfs.http.client)
 
 }
