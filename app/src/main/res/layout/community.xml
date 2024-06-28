@@ -81,9 +81,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="Google"
+                            android:text="Facebook"
                             android:textColor="@android:color/black"
-                            android:textSize="18sp" />
+                            android:textSize="25sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -106,7 +106,7 @@
                             android:gravity="center"
                             android:text="Discord"
                             android:textColor="@android:color/black"
-                            android:textSize="18sp" />
+                            android:textSize="25sp" />
                     </LinearLayout>
 
                 </LinearLayout>

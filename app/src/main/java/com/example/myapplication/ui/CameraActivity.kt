@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -18,7 +19,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
 import com.example.myapplication.R
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -58,9 +58,9 @@ class CameraActivity : AppCompatActivity() {
         ) { bitmap: Bitmap? ->
             bitmap?.let {
                 ivUser.setImageBitmap(it) // Display the captured image
-                val fileUri = saveBitmapToFile(this, it, "captured_image")
-                fileUri?.let { uri ->
-                    uploadImageToIPFS(uri)
+                val imageFile = saveBitmapToFile(this, it, "captured_image")
+                imageFile?.let { file ->
+                    uploadImageToIPFS(file)
                 }
             }
         }
@@ -77,38 +77,49 @@ class CameraActivity : AppCompatActivity() {
         }
 
         // Set up click listener for the back button
-        backButton.setOnClickListener {// Navigate back to the main menu
+        backButton.setOnClickListener {
+            // Navigate back to the main menu
             val intent = Intent(this, MainMenuActivity::class.java)
             startActivity(intent)
             finish() // Optional: close the current activity
         }
     }
 
-    // Save the bitmap to a file and return its URI
-    private fun saveBitmapToFile(context: Context, bitmap: Bitmap, capturedImage: String): Uri? {
-        // Get the external files directory for images
-        val imagesDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+    // Save the bitmap to a file and return the File object
+    private fun saveBitmapToFile(context: Context, bitmap: Bitmap, capturedImage: String): File? {
+        // Get the public external storage directory for pictures
+        val imagesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
         if (imagesDir != null && !imagesDir.exists()) {
             imagesDir.mkdirs()
         }
 
-        // Create the file in the external files directory
-        val imageFile = File(imagesDir, "$capturedImage.jpg")
+        // Create a unique filename with a timestamp
+        val timestamp = System.currentTimeMillis()
+        val imageFile = File(imagesDir, "$capturedImage$timestamp.jpg")
+
         return try {
             FileOutputStream(imageFile).use { out ->
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out) // Compress to 90% quality
                 out.flush()
             }
-            // Get the content URI for the saved file using FileProvider
-            FileProvider.getUriForFile(context, "com.example.myapplication.fileprovider", imageFile)
+            // Notify the media scanner about the new file so that it is immediately available to the user
+            MediaScannerConnection.scanFile(context, arrayOf(imageFile.toString()), null, null)
+            // Return the File object
+            imageFile
         } catch (e: IOException) {
             e.printStackTrace()
             null
         }
     }
 
-    private fun uploadImageToIPFS(uri: Uri) {
-        val file = File(uri.path!!)
+    private fun uploadImageToIPFS(file: File) {
+        if (!file.exists()) {
+            runOnUiThread {
+                Toast.makeText(this, "File does not exist: ${file.absolutePath}", Toast.LENGTH_SHORT).show()
+            }
+            return
+        }
+
         val requestBody = file.asRequestBody("image/*".toMediaTypeOrNull())
 
         val multipartBody = MultipartBody.Builder()
@@ -116,12 +127,15 @@ class CameraActivity : AppCompatActivity() {
             .addFormDataPart("file", file.name, requestBody)
             .build()
 
+
         val request = Request.Builder()
-            .url("https://api.pinata.cloud/pinning/pinFileToIPFS") // Replace with your IPFS API endpoint
+            .url("https://aqua-adjacent-kite-517.mypinata.cloud/pinning/pinFileToIPFS")
             .post(multipartBody)
-            .addHeader("pinata_api_key", "YOUR_PINATA_API_KEY") // Replace with your API key
-            .addHeader("pinata_secret_api_key", "YOUR_PINATA_SECRET_API_KEY") // Replace with your secret API key
+            .addHeader("Content-Type", "multipart/form-data")
+            .addHeader("pinata_api_key", "da8f6a2521c64aace556") // Replace with your Pinata API key
+            .addHeader("pinata_secret_api_key", "fd9c150ad5db89f01b613c97138492de832245592d06dba18deb0f2ffbf52932") // Replace with your Pinata secret API key
             .build()
+
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
@@ -131,16 +145,22 @@ class CameraActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                if (!response.isSuccessful) {
-                    runOnUiThread {
-                        Toast.makeText(this@CameraActivity, "Failed to upload image to IPFS", Toast.LENGTH_SHORT).show()
-                    }
-                } else {
+                if (response.isSuccessful) {
+                    // Handle successful response
                     val responseJson = JSONObject(response.body!!.string())
-                    val ipfsUrl = responseJson.getString("IpfsHash")
-                    sendIpfsUrlToServerForComparison(ipfsUrl)
+                    val ipfsHash = responseJson.getString("Hash")
+                    runOnUiThread {
+                        Toast.makeText(this@CameraActivity, "Image uploaded to IPFS: $ipfsHash", Toast.LENGTH_SHORT).show()
+                    }
+                    // Further actions if needed, such as navigating to the IPFS web interface
+                } else {
+                    // Handle unsuccessful response
+                    runOnUiThread {
+                        Toast.makeText(this@CameraActivity, "Failed to upload image to IPFSS", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
+
         })
     }
 
@@ -154,7 +174,7 @@ class CameraActivity : AppCompatActivity() {
             .build()
 
         val request = Request.Builder()
-            .url("http://your_server_url/compare") // Replace with your server URL
+            .url("http://171.247.145.173:5000") // Replace with your server URL
             .post(requestBody)
             .build()
 
